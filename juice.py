@@ -1,16 +1,18 @@
+import re
 import sys
 
 import ebooklib
 from bs4 import BeautifulSoup
 from ebooklib import epub
-import re
+from wordfreq import zipf_frequency
+
 
 def text_from_item(item):
     soup = BeautifulSoup(item.content, features="html.parser")
 
-        # kill all script and style elements
+    # kill all script and style elements
     for script in soup(["script", "style"]):
-        script.extract()    # rip it out
+        script.extract()  # rip it out
 
         # get text
     text = soup.get_text()
@@ -22,6 +24,7 @@ def text_from_item(item):
     # drop blank lines
     text = '\n'.join(chunk for chunk in chunks if chunk)
     return text
+
 
 if __name__ == '__main__':
     filename = sys.argv[1]
@@ -35,8 +38,11 @@ if __name__ == '__main__':
         text = text_from_item(item)
         # print(text)
         words_pattern = '[a-z]+'
-        words = set([x for x in re.findall(words_pattern, text, flags=re.IGNORECASE) if x[0].islower()])
+        words = set([x.lower() for x in re.findall(words_pattern, text, flags=re.IGNORECASE) if x[0].islower()])
         all_words.update(words)
 
     for word in all_words:
-        print(word)
+        freq = zipf_frequency(word, 'en')
+        if freq < 2.5:
+            # print(word, freq)
+            print(word)
