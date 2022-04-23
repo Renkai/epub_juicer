@@ -41,8 +41,21 @@ if __name__ == '__main__':
         words = set([x.lower() for x in re.findall(words_pattern, text, flags=re.IGNORECASE) if x[0].islower()])
         all_words.update(words)
 
+    freqMax = 3.5
+    freqMin = 1.5
     for word in all_words:
-        freq = zipf_frequency(word, 'en')
-        if freq < 2.5:
-            # print(word, freq)
-            print(word)
+        if word.endswith('s'):
+            freq = zipf_frequency(word[:-1], 'en')
+            if freqMax > freq > freqMin:
+                # print(word, freq)
+                print(word[:-1])
+        # elif word.endswith('ed'):
+        #     freq = zipf_frequency(word[:-2], 'en')
+        #     if freqMax > freq > freqMin:
+        #         # print(word, freq)
+        #         print(word[:-2])
+        else:
+            freq = zipf_frequency(word, 'en')
+            if freqMax > freq > freqMin:
+                # print(word, freq)
+                print(word)
