@@ -31,9 +31,12 @@ def get_formations():
     _origins = set()
     _formation_map = dict()
     _dict_words = set()
-    for line in f.readlines():
-        arr = line.split(" ")
+    for dict_line in f.readlines():
+        arr = [x.strip() for x in dict_line.split(" ")]
         if len(arr) == 2:
+            if 'secrets' in arr:
+                print("in in in !")
+                print(arr)
             (formation, _origin) = arr
             _origins.add(_origin)
             _formation_map[formation] = _origin
@@ -53,7 +56,7 @@ if __name__ == '__main__':
     all_words = set()
     _, formation_map, dict_words = get_formations()
     print("len ", len(formation_map), len(dict_words))
-    print("contains", 'standoffs' in dict_words)
+    print("contains", 'secret' in dict_words)
     # sys.exit(0)
 
     for item in items:
@@ -88,12 +91,15 @@ if __name__ == '__main__':
 
     print("not in dict size:", len(not_in_dict))
     with open('not_in_dict.txt', 'w') as not_in_dict_file:
-        not_in_dict_file.writelines(sorted(not_in_dict))
+        for line in sorted(not_in_dict):
+            not_in_dict_file.write(line + "\n")
 
     print("origins size:", len(origins))
     with open('origins.txt', 'w') as origins_file:
-        origins_file.writelines(sorted(origins))
+        for line in sorted(origins):
+            origins_file.write(line + "\n")
 
     print("formations size:", len(formations))
     with open('formations.txt', 'w') as formations_file:
-        formations_file.writelines(sorted(formations))
+        for line in sorted(formations):
+            formations_file.write(line + "\n")
