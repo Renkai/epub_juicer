@@ -28,6 +28,11 @@ def text_from_item(item):
 
 def get_formations():
     f = open("reversed-deformations.txt", "r")
+    dict_titles = set()
+    with open('dict_titles.txt', 'r') as dict_titles_file:
+        for title in dict_titles_file:
+            dict_titles.add(title.strip())
+
     _origins = set()
     _formation_map = dict()
     _dict_words = set()
@@ -43,7 +48,7 @@ def get_formations():
             _dict_words.add(formation)
             _dict_words.add(_origin)
 
-    return _origins, _formation_map, _dict_words
+    return _origins, _formation_map, _dict_words.union(dict_titles)
 
 
 if __name__ == '__main__':
