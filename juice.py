@@ -58,7 +58,7 @@ if __name__ == '__main__':
     # example_item = next(items)
     # text = text_from_item(example_item)
     # print(text)
-    all_words = set()
+    all_words = dict()
     _, formation_map, dict_words = get_formations()
     print("len ", len(formation_map), len(dict_words))
     print("contains", 'secret' in dict_words)
@@ -68,14 +68,16 @@ if __name__ == '__main__':
         text = text_from_item(item)
         # print(text)
         words_pattern = '[a-z]+'
-        words = set([x.lower() for x in re.findall(words_pattern, text, flags=re.IGNORECASE) if x[0].islower()])
-        all_words.update(words)
+        words = [x.lower() for x in re.findall(words_pattern, text, flags=re.IGNORECASE) if x[0].islower()]
+        # all_words.update(words)
+        for word in words:
+            all_words[word] = (all_words.get(word) if word in all_words else 0) + 1
 
     freqMax = 3.5
     freqMin = 1
     not_in_dict = set()
-    origins = set()
-    formations = set()
+    origins = dict()
+    formations = dict()
 
     for word in all_words:
         if word not in dict_words:
@@ -87,12 +89,12 @@ if __name__ == '__main__':
                 origin = formation_map[word]
                 freq = zipf_frequency(origin, 'en')
                 if freqMax > freq > freqMin:
-                    origins.add(origin)
+                    origins[origin] = all_words[word]
             else:
                 print("else ", word)
                 freq = zipf_frequency(word, 'en')
                 if freqMax > freq > freqMin:
-                    formations.add(word)
+                    formations[word] = all_words[word]
 
     print("not in dict size:", len(not_in_dict))
     with open('not_in_dict.txt', 'w') as not_in_dict_file:
@@ -101,10 +103,22 @@ if __name__ == '__main__':
 
     print("origins size:", len(origins))
     with open('origins.txt', 'w') as origins_file:
-        for line in sorted(origins):
+        for line in sorted(origins.keys()):
             origins_file.write(line + "\n")
 
-    print("formations size:", len(formations))
+    print("formations size:", len(formations.keys()))
     with open('formations.txt', 'w') as formations_file:
         for line in sorted(formations):
             formations_file.write(line + "\n")
+
+    from collections import Counter
+
+    with open('origins-count.txt', 'w') as origins_file:
+        cc = Counter(origins)
+        for k, v in cc.most_common():
+            origins_file.write(f"{k} {v}" + "\n")
+
+    with open('formations-count.txt', 'w') as formations_file:
+        cc = Counter(formations)
+        for k, v in cc.most_common():
+            formations_file.write(f"{k} {v}" + "\n")
