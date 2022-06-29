@@ -53,7 +53,7 @@ def get_formations():
 
 
 def find_etymology(word_list):
-    def find_ety_for_word(the_word, recursive=1):
+    def find_ety_for_word(the_word, recursive=2):
         recursive -= 1
         if the_word in etymology:
             e_text = etymology[the_word]
