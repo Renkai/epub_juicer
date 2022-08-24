@@ -2,17 +2,12 @@ beautifulsoup4==4.10.0
 certifi==2020.6.20
 EbookLib==0.17.1
 ftfy==6.1.1
-langcodes @ file:///opt/conda/conda-bld/langcodes_1643477751144/work
 loguru==0.6.0
-lxml @ file:///opt/concourse/worker/volumes/live/5afba315-4c6b-4a06-52c9-c74d70a22925/volume/lxml_1646642668916/work
 mobi==0.3.3
 msgpack==1.0.3
 mypy==0.931
 mypy-extensions==0.4.3
 regex==2022.3.15
-six @ file:///tmp/build/80754af9/six_1644875935023/work
 soupsieve==2.3.1
 tomli==2.0.1
-typing_extensions @ file:///opt/conda/conda-bld/typing_extensions_1647553014482/work
-wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
 wordfreq==3.0.0
