@@ -83,13 +83,13 @@ def find_etymology(word_list):
 
 
 filename = sys.argv[1]
-all_words = get_words.get_epub_words(filename)
+all_words = get_words.get_words(filename)
 
 _, formation_map, dict_words = get_formations()
 print("len ", len(formation_map), len(dict_words))
 print("contains", 'secret' in dict_words)
 
-freqMax = 3
+freqMax = 3.5
 freqMin = 1
 not_in_dict = set()
 origins = dict()
